@@ -1,8 +1,6 @@
 import java.text.NumberFormat;
 import java.util.*;
 
-import Play.playType;
-
 
 public class StatementPrinter {
   public static final String TRAGEDY = "tragedy";
@@ -53,7 +51,8 @@ public class StatementPrinter {
     result.append(String.format("You earned %s credits\n", volumeCredits));
     return result.toString();
   }
-/* 
+
+  
   public String toHTML(Invoice invoice,HashMap<String, Play> plays) {
 
     int totalAmount = 0;
@@ -86,7 +85,7 @@ public class StatementPrinter {
       // add volume credits
       volumeCredits += Math.max(perf.audience - 30, 0);
       // add extra credit for every ten comedy attendees
-      if (COMEDY.equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
+      if (Play.playType.COMEDY.equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
 
       // print line for this order
       result.append(String.format("  %s: %s (%s seats)\n", play.name, frmt.format(thisAmount), perf.audience));
@@ -109,7 +108,7 @@ public class StatementPrinter {
 
     return result.toString();
 }
-*/
+
  
 
 
