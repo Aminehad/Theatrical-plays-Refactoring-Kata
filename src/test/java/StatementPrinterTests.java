@@ -7,15 +7,16 @@ import java.util.Map;
 
 import static org.approvaltests.Approvals.verify;
 
+
 public class StatementPrinterTests {
 
     @Test
     void exampleStatement() {
 
         HashMap<String, Play> plays = new HashMap<>();
-        plays.put("hamlet",  new Play("Hamlet", "tragedy"));
-        plays.put("as-like",  new Play("As You Like It", "comedy"));
-        plays.put("othello",  new Play("Othello", "tragedy"));
+        plays.put("hamlet",  new Play("Hamlet", Play.playType.TRAGEDY));
+        plays.put("as-like",  new Play("As You Like It",Play.playType.COMEDY));
+        plays.put("othello",  new Play("Othello", Play.playType.TRAGEDY));
 
         Invoice invoice = new Invoice("BigCo", List.of(
                 new Performance("hamlet", 55),

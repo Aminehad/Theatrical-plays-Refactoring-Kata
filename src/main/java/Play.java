@@ -1,10 +1,14 @@
 public class Play {
 
   public String name;
-  public String type;
+  public playType type;
 
-  public Play(String name, String type) {
+  public Play(String name, playType type) {
     this.name = name;
     this.type = type;
   }
+  public enum playType {
+    TRAGEDY, COMEDY
+  }
+
 }
