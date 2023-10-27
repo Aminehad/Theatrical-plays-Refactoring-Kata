@@ -1,16 +1,16 @@
 import java.util.*;
 
-import java.util.*;
 
 public class Invoice {
 
-  public String customer;
+  
+  Customer customer;
   public List<Performance> performances;
- 
+  
 
-  public Invoice(String customer, List<Performance> performances) {
-    this.customer = customer;
-    this.performances = performances;
+  public Invoice(String name, List<Performance> performances) {
+    this.customer = new Customer(name, 0, 0);   
+     this.performances = performances;
   
   }
   
