@@ -11,9 +11,9 @@ public class StatementPrinter {
     int totalAmount = 0;
     int volumeCredits = 0;
     StringBuilder result = new StringBuilder();
-    double cus=customer.getsoldepoints(); //get the solde points of the customer
+    int cus=customer.soldepoints; //get the solde points of the customer
     result.append(String.format("Statement for %s\n", invoice.customer.name));
-    result.append(String.format("Your points %f\n", invoice.customer.soldepoints));
+    result.append(String.format("Your points %d \n", cus));
 
     NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
@@ -33,11 +33,12 @@ public class StatementPrinter {
       totalAmount += thisAmount;
 
     }
+    cus=customer.getsoldepoints();
     cus=cus+volumeCredits;
     //customer.setsoldepoints(cus); //set the solde points of the customer
     result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount)));
     result.append(String.format("You earned %s credits\n", volumeCredits));
-    result.append(String.format("Your point left %s credits\n", volumeCredits));
+    result.append(String.format("Your point left %s credits\n", cus));
     return result.toString();
   }
 
@@ -48,7 +49,7 @@ public class StatementPrinter {
     int volumeCredits = 0;
     StringBuilder result = new StringBuilder();
     NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
-    double cus=customer.getsoldepoints(); //get the solde points of the customer 
+    int cus=customer.soldepoints; //get the solde points of the customer 
 
 
     for (Performance perf : invoice.performances) {
@@ -67,19 +68,23 @@ public class StatementPrinter {
 
      
     }
+    cus=customer.getsoldepoints();
     cus=cus+volumeCredits;
-    //customer.setsoldepoints(cus); //set the solde points of the customer
+
     // Génération du détail de la facture au format HTML
     result.append("<table>\n");
     result.append("<tr><th>Play</th><th>Seats</th><th>Amount</th></tr>\n");
+    double thisAmount = 0;
     for (Performance perf : invoice.performances) {
-        Play play = plays.get(perf.playID);
-        result.append(String.format("  <tr><td>%s</td><td>%s</td><td>%s</td></tr>\n", play.name, perf.audience, frmt.format(totalAmount)));
+      Play play = plays.get(perf.playID);
+      CalculClass calcul = new CalculClass();
+      thisAmount = calcul.calcul(perf, play, customer);
+      result.append(String.format("  <tr><td>%s</td><td>%s</td><td>%s</td></tr>\n", play.name, perf.audience, frmt.format(thisAmount)));
     }
     result.append("</table>\n");
     result.append(String.format("<p>Amount owed is %s</p>\n", frmt.format(totalAmount)));
     result.append(String.format("<p>You earned %d credits</p>\n", volumeCredits));
-    result.append(String.format("<p>Your points left %f credits</p>\n", cus));
+    result.append(String.format("<p>Your points left %d credits</p>\n",cus));
     result.append("</body></html>\n");
 
     return result.toString();
