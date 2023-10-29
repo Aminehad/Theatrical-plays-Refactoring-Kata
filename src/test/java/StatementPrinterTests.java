@@ -8,7 +8,7 @@ import static org.approvaltests.Approvals.verifyHtml;
 
 
 public class StatementPrinterTests {
-  Customer customer = new Customer("BigCo", 1522, 151);
+  Customer customer = new Customer("BigCo", 1522, 180);
 
     @Test
     void exampleStatementPrinttotext() {
