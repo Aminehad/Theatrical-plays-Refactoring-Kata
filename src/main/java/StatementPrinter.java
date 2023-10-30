@@ -36,9 +36,9 @@ public class StatementPrinter {
     cus=customer.getsoldepoints();
     cus=cus+volumeCredits;
     //customer.setsoldepoints(cus); //set the solde points of the customer
-    result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount)));
-    result.append(String.format("You earned %s credits\n", volumeCredits));
-    result.append(String.format("Your point left %s credits\n", cus));
+    result.append(String.format("Amount owed is : %s\n", frmt.format(totalAmount)));
+    result.append(String.format("You earned : %s points\n", volumeCredits));
+    result.append(String.format("Points left : %s points\n", cus));
     return result.toString();
   }
 
@@ -63,28 +63,38 @@ public class StatementPrinter {
       if (Play.playType.COMEDY.equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
 
       // print line for this order
-      result.append(String.format("  %s: %s (%s seats)\n", play.name, frmt.format(thisAmount), perf.audience));
+      //result.append(String.format("  %s: %s (%s seats)\n", play.name, frmt.format(thisAmount), perf.audience));
       totalAmount += thisAmount;
 
      
     }
+     result.append(String.format("<p><strong>Invoice</strong> </p>\n ") );
+     result.append(String.format("<p><strong>Client :</strong> %s </p>\n", invoice.customer.name));
+
     cus=customer.getsoldepoints();
     cus=cus+volumeCredits;
 
     // Génération du détail de la facture au format HTML
-    result.append("<table>\n");
-    result.append("<tr><th>Play</th><th>Seats</th><th>Amount</th></tr>\n");
-    double thisAmount = 0;
-    for (Performance perf : invoice.performances) {
-      Play play = plays.get(perf.playID);
-      CalculClass calcul = new CalculClass();
-      thisAmount = calcul.calcul(perf, play, customer);
-      result.append(String.format("  <tr><td>%s</td><td>%s</td><td>%s</td></tr>\n", play.name, perf.audience, frmt.format(thisAmount)));
-    }
-    result.append("</table>\n");
-    result.append(String.format("<p>Amount owed is %s</p>\n", frmt.format(totalAmount)));
-    result.append(String.format("<p>You earned %d credits</p>\n", volumeCredits));
-    result.append(String.format("<p>Your points left %d credits</p>\n",cus));
+      result.append("<style>");
+      result.append("table { border-collapse: collapse; width: 50%; }");
+      result.append("th, td { border: 1px solid black; padding: 8px; text-align: left; }");
+      result.append("</style>");
+      result.append("<table>\n");
+      result.append("<tr><th>Play</th><th>Seats</th><th>Amount</th></tr>\n");
+      double thisAmount = 0;
+      for (Performance perf : invoice.performances) {
+        Play play = plays.get(perf.playID);
+        CalculClass calcul = new CalculClass();
+        thisAmount = calcul.calcul(perf, play, customer);
+        result.append(String.format("  <tr><td>%s</td><td>%s</td><td>%s</td></tr>\n", play.name, perf.audience, frmt.format(thisAmount)));
+      }
+      result.append(String.format("<tr><td><strong> Amount owed is</strong></td><td>%s</td></tr>\n", frmt.format(totalAmount)));
+      result.append(String.format("<tr><td><strong>You earned</strong></td><td> %d points</td></tr>\n", volumeCredits));
+      result.append(String.format("<tr><td><strong>Points left</strong></td><td> %d points</td></tr>\n", cus));
+      result.append("</table>\n");
+    
+    
+    result.append(" Payment is required under 30 days, we can brake your knees if you dont do so\n ");
     result.append("</body></html>\n");
 
     return result.toString();
