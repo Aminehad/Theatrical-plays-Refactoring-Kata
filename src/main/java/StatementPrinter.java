@@ -33,7 +33,10 @@ public class StatementPrinter {
       totalAmount += thisAmount;
 
     }
-    cus=customer.getsoldepoints();
+    if (cus>150){
+      cus=cus-150;
+      totalAmount-=15;
+    }
     cus=cus+volumeCredits;
     //customer.setsoldepoints(cus); //set the solde points of the customer
     result.append(String.format("Amount owed is : %s\n", frmt.format(totalAmount)));
@@ -71,9 +74,13 @@ public class StatementPrinter {
      result.append(String.format("<p><strong>Invoice</strong> </p>\n ") );
      result.append(String.format("<p><strong>Client :</strong> %s </p>\n", invoice.customer.name));
 
-    cus=customer.getsoldepoints();
+    if (cus>150){
+      cus=cus-150;
+      totalAmount-=15;
+    }
     cus=cus+volumeCredits;
-
+    //customer.setsoldepoints(cus); //set the solde points of the customer
+    
     // Génération du détail de la facture au format HTML
       result.append("<style>");
       result.append("table { border-collapse: collapse; width: 50%; }");
